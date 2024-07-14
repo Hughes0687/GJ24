@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
     }
     void Update()
     {
-        Player.instance.grounded = Physics.Raycast(transform.position, Vector3.down, 1f, ground);
+        Player.instance.grounded = Physics.Raycast(transform.position, Vector3.down, 0.55f, ground);
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
         var transform1 = mainCamera.transform;
@@ -58,7 +58,15 @@ public class PlayerController : MonoBehaviour
         
         if (Input.GetKey(KeyCode.Space) && Player.instance.grounded)
         {
-            rigid.AddForce(up * 1f, ForceMode.Impulse);
+            if (Player.instance.fuel > 5f)
+            {
+                rigid.AddForce(up * 75f, ForceMode.Impulse);
+                Player.instance.fuel -= 5f;
+            }
+            else
+            {
+                rigid.AddForce(up * 25f, ForceMode.Impulse);
+            }
         }
         
         if (Input.GetKey(KeyCode.LeftShift))
@@ -77,10 +85,5 @@ public class PlayerController : MonoBehaviour
                 rigid.drag = Player.instance.drag;
             }
         }
-        
-        // if (Player.instance.grounded && Player.instance.boost < 10f)
-        // {
-            // Player.instance.boost += 1f * Time.deltaTime;
-        // }
     }
 }

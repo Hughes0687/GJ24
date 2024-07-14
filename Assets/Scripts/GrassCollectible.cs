@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 public class GrassCollectible : MonoBehaviour
 {
@@ -7,7 +6,7 @@ public class GrassCollectible : MonoBehaviour
     public float shrinkSpeed = 1f;
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Ally"))
         {
             StartCoroutine(ShrinkChunk());
         }
@@ -15,7 +14,7 @@ public class GrassCollectible : MonoBehaviour
     
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") || other.CompareTag("Ally"))
         {
             StartCoroutine(ShrinkChunk());
             // spawner.StartRegrowthTimer();
@@ -31,7 +30,9 @@ public class GrassCollectible : MonoBehaviour
         }
 
         Player.instance.carbon += 1f;
+        Player.instance.fuel += 1f;
         Debug.Log("Carbon: " +  + Player.instance.carbon);
+        Debug.Log("Fuel: " +  + Player.instance.fuel);
         // Ball.instance.overBoost += 2f;
         // Destroy(gameObject);
         Destroy(transform.parent.gameObject);

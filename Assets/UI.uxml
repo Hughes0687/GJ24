@@ -1,5 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/style.uss?fileID=7433441132597879392&amp;guid=eeda5e731b2df4db0a1a1e726273755d&amp;type=3#style" />
     <ui:VisualElement style="flex-grow: 1;" />
-    <ui:ProgressBar value="22" title="Boost" name="BoostBar" />
+    <ui:ProgressBar value="22" title="Fuel" name="FuelBar" view-data-key="fuel" />
 </ui:UXML>

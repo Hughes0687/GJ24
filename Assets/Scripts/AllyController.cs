@@ -6,10 +6,12 @@ public class AllyController : MonoBehaviour
     public float minDistance = 3f;
     public float maxDistance = 10f;
     public float grassPursuitRange = 10f;
-    public float moveSpeed = 5f;
+    public float enemyPursuitRange = 15f;
+    public float moveSpeed = 50f;
 
     private Rigidbody rb;
     private Transform targetGrass;
+    private Transform targetEnemy;
 
     void Start()
     {
@@ -23,15 +25,23 @@ public class AllyController : MonoBehaviour
 
     void FixedUpdate()
     {
-        CheckForGrass();
-
-        if (targetGrass != null)
+        CheckForEnemy();
+        
+        if (targetEnemy != null)
         {
-            PursueGrass();
+            PursueEnemy();
         }
         else
         {
-            FollowPlayer();
+            CheckForGrass();
+            if (targetGrass != null)
+            {
+                PursueGrass();
+            }
+            else
+            {
+                FollowPlayer();
+            }
         }
     }
 
@@ -51,12 +61,37 @@ public class AllyController : MonoBehaviour
         }
     }
 
+    void CheckForEnemy()
+    {
+        GameObject[] enemyObjects = GameObject.FindGameObjectsWithTag("Enemy");
+        targetEnemy = null;
+        float closestDistance = enemyPursuitRange;
+        foreach (GameObject enemy in enemyObjects)
+        {
+            float distanceToEnemy = Vector3.Distance(transform.position, enemy.transform.position);
+            if (distanceToEnemy <= enemyPursuitRange && distanceToEnemy < closestDistance)
+            {
+                closestDistance = distanceToEnemy;
+                targetEnemy = enemy.transform;
+            }
+        }
+    }
+
     void PursueGrass()
     {
         if (targetGrass != null)
         {
             Vector3 direction = (targetGrass.position - transform.position).normalized;
-            rb.MovePosition(transform.position + direction * moveSpeed * Time.fixedDeltaTime);
+            rb.AddForce(direction * moveSpeed * Time.fixedDeltaTime);
+        }
+    }
+
+    void PursueEnemy()
+    {
+        if (targetEnemy != null)
+        {
+            Vector3 direction = (targetEnemy.position - transform.position).normalized;
+            rb.AddForce(direction * moveSpeed * Time.fixedDeltaTime);
         }
     }
 
@@ -79,6 +114,6 @@ public class AllyController : MonoBehaviour
             return;
         }
 
-        rb.MovePosition(transform.position + direction * moveSpeed * Time.fixedDeltaTime);
+        rb.AddForce(direction * moveSpeed * Time.fixedDeltaTime);
     }
 }

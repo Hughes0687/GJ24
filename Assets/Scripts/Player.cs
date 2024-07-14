@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -15,9 +12,8 @@ public class Player : MonoBehaviour
     public float maxBoostValue = 5.0f;
     public bool grounded = false;
     public float boost = 0f;
-    public float overBoost = 0f;
     public float carbon;
-    public float stone;
+    public float fuel = 0;
     public float scale = 1f;
     public Rigidbody _rigidbody;
 
@@ -38,5 +34,6 @@ public class Player : MonoBehaviour
 
         Vector3 newScale = new Vector3(scale, scale, scale);
         _rigidbody.transform.localScale = newScale;
+        fuel += Time.deltaTime * 0.1f;
     }
 }
