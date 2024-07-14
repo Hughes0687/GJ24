@@ -35,25 +35,25 @@ public class PlayerController : MonoBehaviour
         if (horizontalInput > 0)
         {
             // rigid.AddForce(right * Player.instance.power);
-            rigid.AddTorque(orientation * (Player.instance.power * 0.25f), ForceMode.Impulse);
+            rigid.AddTorque(orientation * (Player.instance.power * 0.5f), ForceMode.Impulse);
         }
 
         if (horizontalInput < 0)
         {
             // rigid.AddForce(-right * Player.instance.power);
-            rigid.AddTorque(orientation * (Player.instance.power * 0.25f), ForceMode.Impulse);
+            rigid.AddTorque(orientation * (Player.instance.power * 0.2f), ForceMode.Impulse);
         }
 
         if (verticalInput > 0)
         {
             // rigid.AddForce(forward * Player.instance.power);
-            rigid.AddTorque(orientation * (Player.instance.power * 0.25f), ForceMode.Impulse);
+            rigid.AddTorque(orientation * (Player.instance.power * 0.2f), ForceMode.Impulse);
         }
 
         if (verticalInput < 0)
         {
             // rigid.AddForce(-forward * Player.instance.power);
-            rigid.AddTorque(orientation * (Player.instance.power * 0.5f), ForceMode.Impulse);
+            rigid.AddTorque(orientation * (Player.instance.power * 0.25f), ForceMode.Impulse);
         }
         
         if (Input.GetKey(KeyCode.Space) && Player.instance.grounded)
@@ -71,12 +71,12 @@ public class PlayerController : MonoBehaviour
         
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            if (Player.instance.boost > 0f)
+            if (Player.instance.fuel > 0f)
             {
                 rigid.maxAngularVelocity = Player.instance.maxAngularVelocity * 2f;
                 rigid.AddForce(forward * (Player.instance.power * 2f));
                 rigid.AddTorque(orientation * (Player.instance.power * 3f), ForceMode.Impulse);
-                Player.instance.boost -= 2f * Time.deltaTime;
+                Player.instance.fuel -= 1f * Time.deltaTime;
             }
             else
             {

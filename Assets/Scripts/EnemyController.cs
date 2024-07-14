@@ -100,7 +100,7 @@ public class EnemyController : MonoBehaviour
             Rigidbody hitRb = hit.attachedRigidbody;
             if (hitRb != null)
             {
-                WaitForSeconds wait = new WaitForSeconds(0.4f);
+                WaitForSeconds wait = new WaitForSeconds(0.8f);
                 hitRb.AddExplosionForce(explosionForce, explosionPosition, explosionRadius);
                 Debug.Log($"Applying explosion force to {hitRb.gameObject.name}");
 
