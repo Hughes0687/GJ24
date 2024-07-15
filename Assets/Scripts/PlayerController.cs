@@ -71,7 +71,7 @@ public class PlayerController : MonoBehaviour
         
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            if (Player.instance.fuel > 0f)
+            if (Player.instance.fuel > 0.01f)
             {
                 rigid.maxAngularVelocity = Player.instance.maxAngularVelocity * 2f;
                 rigid.AddForce(forward * (Player.instance.power * 2f));

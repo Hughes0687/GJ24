@@ -15,7 +15,9 @@ public class EnemyController : MonoBehaviour
     public LayerMask damageableLayer;
     public float explosionOffset = 2f;
     public float flingCooldown = 3f;
-
+    public AudioClip explosionSound;
+    
+    public AudioSource audioSource;
     private Rigidbody rb;
     private float nextJumpTime;
     private float nextFlingTime;
@@ -24,6 +26,9 @@ public class EnemyController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         ScheduleNextJump();
+        
+        GetComponent<AudioSource>().playOnAwake = false;
+        GetComponent<AudioSource>().clip = explosionSound;
     }
 
     void Update()
@@ -101,9 +106,22 @@ public class EnemyController : MonoBehaviour
             if (hitRb != null)
             {
                 WaitForSeconds wait = new WaitForSeconds(0.8f);
+                if (explosionSound != null)
+                {
+                    Debug.Log("Playing explosion sound");
+                    // audioSource.PlayOneShot(explosionSound);
+                    audioSource.Play();
+                    // GetComponent<AudioSource>().Play();
+                }
+                else
+                {
+                    Debug.LogWarning("Explosion sound not assigned.");
+                }
                 hitRb.AddExplosionForce(explosionForce, explosionPosition, explosionRadius);
                 Debug.Log($"Applying explosion force to {hitRb.gameObject.name}");
 
+                WaitForSeconds waitt = new WaitForSeconds(0.8f);
+                
                 // Example: Apply damage if the object has a health component
                 // Health health = hitRb.GetComponent<Health>();
                 // if (health != null)
@@ -111,10 +129,10 @@ public class EnemyController : MonoBehaviour
                 //     health.TakeDamage(10); // Adjust the damage amount as needed
                 //     Debug.Log($"{hitRb.gameObject.name} took damage");
                 // }
+                Destroy(gameObject);
+
             }
         }
-
-        Destroy(gameObject);
     }
 
     void FacePlayer(Vector3 playerPosition)

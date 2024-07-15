@@ -22,6 +22,7 @@ public class FuelUpdater : MonoBehaviour
         if (fuelProgressBar != null && Player.instance != null)
         {
             fuelProgressBar.value = Player.instance.fuel;
+            fuelProgressBar.title = "Fuel: " + Player.instance.fuel.ToString("F2");
         }
     }
 }
